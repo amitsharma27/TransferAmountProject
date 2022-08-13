@@ -62,14 +62,14 @@ public class AmountTransferServiceImpl implements AmountTransferService {
 	}
 
 	private void validateIsNegativeAmount(BigDecimal amount) {
-		if (amount.compareTo(BigDecimal.ZERO) < 0)
+		if (amount.compareTo(BigDecimal.ZERO) <= 0)
 			throw new AccountBalanceException("Incorrect Amount Entered ");
 	}
 
 	public synchronized void withdraw(BigDecimal amount, Long fromAccountoRequest) {
 		validateIsNegativeAmount(amount);
 		Account fromAccount = accountsRepository.getAccount(fromAccountoRequest);
-		if (ObjectUtils.isEmpty(fromAccount) || fromAccount.getBalance().compareTo(BigDecimal.ZERO) <= 0) {
+		if (ObjectUtils.isEmpty(fromAccount) || fromAccount.getBalance().compareTo(amount) < 0) {
 			log.debug("fromAccount Details {}", fromAccount.toString());//will required only for debugging ,not to print account no in logs
 			throw new AccountBalanceException("Insufficient Balance or Failed to Get Account Details");
 		}

@@ -66,7 +66,7 @@ public class AmountTransferServiceTest {
 		Mockito.when(accountsRepository.getAccount(Mockito.anyLong()))
 				.thenReturn(new Account("123", new BigDecimal(200)));
 		Mockito.when(accountsRepository.getAccount(Mockito.anyLong()))
-				.thenReturn(new Account("456", new BigDecimal(500)));
+				.thenReturn(new Account("456", new BigDecimal(300)));
 		Mockito.doNothing().when(accountsRepository).updateBalance(Mockito.anyString(), Mockito.any());
 		Mockito.doNothing().when(notificationService).notifyAboutTransferAsync(Mockito.anyLong(), Mockito.any());
 
@@ -76,7 +76,7 @@ public class AmountTransferServiceTest {
 	@Test(expected = AccountBalanceException.class)
 	public void test_fundTransfer_UnhandledExption() {
 		Mockito.when(accountsRepository.getAccount(Mockito.anyLong()))
-				.thenThrow(new RuntimeException());
+				.thenThrow(new AccountBalanceException("Unhandled error"));
 		Mockito.when(accountsRepository.getAccount(Mockito.anyLong()))
 				.thenReturn(new Account("456", new BigDecimal(500)));
 		Mockito.doNothing().when(accountsRepository).updateBalance(Mockito.anyString(), Mockito.any());
