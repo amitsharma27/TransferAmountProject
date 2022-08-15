@@ -1,4 +1,4 @@
-package com.db.awmd.Ichallenge.service;
+package com.db.awmd.challenge.Iservice;
 
 import java.math.BigDecimal;
 

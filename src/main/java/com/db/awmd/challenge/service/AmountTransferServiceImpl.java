@@ -9,7 +9,7 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
 
-import com.db.awmd.Ichallenge.service.AmountTransferService;
+import com.db.awmd.challenge.Iservice.AmountTransferService;
 import com.db.awmd.challenge.domain.Account;
 import com.db.awmd.challenge.domain.AmountTransferResponse;
 import com.db.awmd.challenge.exception.AccountBalanceException;
@@ -69,8 +69,9 @@ public class AmountTransferServiceImpl implements AmountTransferService {
 	public synchronized void withdraw(BigDecimal amount, Long fromAccountoRequest) {
 		validateIsNegativeAmount(amount);
 		Account fromAccount = accountsRepository.getAccount(fromAccountoRequest);
+		//fromAccount=new Account("123",new BigDecimal(2000)); //for test open for testing
 		if (ObjectUtils.isEmpty(fromAccount) || fromAccount.getBalance().compareTo(amount) < 0) {
-			log.debug("fromAccount Details {}", fromAccount.toString());//will required only for debugging ,not to print account no in logs
+			log.debug("fromAccount Details {}", fromAccount);//will required only for debugging ,not to print account no in logs
 			throw new AccountBalanceException("Insufficient Balance or Failed to Get Account Details");
 		}
 		fromAccount.setBalance(fromAccount.getBalance().subtract(amount));
@@ -81,12 +82,13 @@ public class AmountTransferServiceImpl implements AmountTransferService {
 	public synchronized void deposit(BigDecimal amount, @NotNull Long toAccountNoRequest) {
 		validateIsNegativeAmount(amount);
 		Account toAccount = accountsRepository.getAccount(toAccountNoRequest);
+		//toAccount=new Account("456",new BigDecimal(500));//for test,open for testing
 		if (!ObjectUtils.isEmpty(toAccount)) {
 			toAccount.setBalance(toAccount.getBalance().add(amount));
 			accountsRepository.updateBalance(toAccount.getAccountId(), toAccount.getBalance());
 			return;
 		}
-		log.debug("toAccount Details {}", toAccount.toString());
+		log.debug("toAccount Details {}", toAccount);
 		throw new AccountBalanceException("Failed to Get Account or Update Details ");
 	}
 

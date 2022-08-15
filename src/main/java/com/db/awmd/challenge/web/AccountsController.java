@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.db.awmd.Ichallenge.service.AmountTransferService;
+import com.db.awmd.challenge.Iservice.AmountTransferService;
 import com.db.awmd.challenge.domain.Account;
 import com.db.awmd.challenge.domain.AmountTransferRequest;
 import com.db.awmd.challenge.domain.AmountTransferResponse;
